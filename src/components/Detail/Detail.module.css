@@ -1,0 +1,58 @@
+.enc {
+    /* background-image: url('../../images/fondodetail.jpg'); */
+    background-color: rgb(13, 87, 93);
+    /* background-image: url('https://png.pngtree.com/background/20210709/original/pngtree-food-western-food-steak-tomato-picture-image_941801.jpg'); */
+    /* background-image: url('https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148706001.jpg?w=2000'); */
+    background-size: contain;
+    background-repeat: repeat-y;
+    /* display: inline-block;centra el componete  */
+    display: inline-block;
+    width: 750px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding-top: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: rgb(255, 255, 255);
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: large;
+}
+
+.btn1 {
+    height: 30px;
+    width: 100px;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background-color: #6e0f00;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.btn1:hover {
+    background-color: rgb(255, 255, 255);
+    color: #6e0f00;
+    height: 30px;
+    transition: 0.2s;
+}
+
+.summary {
+    max-width: 600px;
+    margin: auto;
+}
+
+.steps {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.imgdetail {
+    background-color:#12c9ab;
+    padding:10px 10px 50px 10px;
+    border:1px solid #710f00;
+    box-shadow:10px 10px 30px rgba(0, 0, 0, 0.4);
+    /* transform:rotate(-10deg); */
+    /* max-width: 400px; */
+    margin-top: 30px;
+    margin-bottom: 20px;
+}

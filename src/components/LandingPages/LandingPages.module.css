@@ -1,0 +1,47 @@
+.container {
+    background-image: url('https://s2.best-wallpaper.net/wallpaper/1920x1200/1805/Green-texture-paper_1920x1200.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.button {
+    color: #ffffff;
+    background-color: #2951df;
+    font-size: 1.2rem;
+    padding: 10px;
+    position: relative;
+    border: none;
+    border-radius: 15px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.button:hover {
+    transition: 2s;
+    width: 110px;
+    height: 50px;
+    filter: drop-shadow(0 0 5px #e5eaec);
+}
+
+.title {
+    color: #070707;
+    font-size: 5rem;
+    position: relative;
+    z-index: 2;
+    margin-top: 10rem;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.info {
+    font-family: Verdana, Geneva, sans-serif;
+    margin-top: 100px;
+    color:#070707;
+}
+
+.credits {
+    color: #070707;
+    margin-top: 15rem;/*mueve verticalmente*/
+    font-family: Verdana, Geneva, sans-serif
+}
