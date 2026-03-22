@@ -1,88 +1,70 @@
-import{ GET_ALL_RECIPES,GET_ALL_DIET ,GET_RECIPE_DETAIL,GET_RECIPE_NAME,POST_RECIPES, ORDER_RECIPES_SCORE,ORDER_NAME,FILTER_DIET,FILTER_CREATED,DELETE } from '../actions/actions-types'
+import {
+  GET_ALL_RECIPES, GET_ALL_DIET, GET_RECIPE_DETAIL, GET_RECIPE_NAME,
+  POST_RECIPES, ORDER_RECIPES_SCORE, ORDER_NAME, FILTER_DIET, FILTER_CREATED, DELETE,
+} from '../actions/actions-types';
 
 const initialState = {
-    recipes: [],
-    copyRecipes: [],
-    recipeDiet:[],
-    diets: [],
-    detais: [],
-}
+  recipes:     [],
+  copyRecipes: [],
+  recipeDiet:  [],
+  diets:       [],
+  details:     null,
+};
+
 const rootReducer = (state = initialState, { type, payload }) => {
-    switch (type) {
-        case GET_ALL_RECIPES:
-            return {
-                ...state,
-                recipes: payload,
-                copyRecipes:payload,
-            }
-            case GET_RECIPE_DETAIL:
-            return {
-                ...state,
-                details: payload,
-            }
-            case GET_ALL_DIET:
-            return {
-                ...state,
-                diets: payload,
-            }
-            case GET_RECIPE_NAME:
-                return {
-                  ...state,
-                  recipes: payload,
-                };
-            case POST_RECIPES:
-                return{
-                    ...state,
-                    recipes:[...state.recipes, payload]
-                }
-            case DELETE:
-                return{
-                    ...state,
-                    recipes: state.recipes.filter(rec=> rec.id !== payload)
-                }
-            case ORDER_RECIPES_SCORE:
-                 const sortRecipeScore=[...state.recipes]
-                return {
-                ...state,
-                recipes:
-                payload === 'Ascendente'
-                    ? sortRecipeScore.sort((a, b) => a.healthScore - b.healthScore)
-                    : sortRecipeScore.sort((a, b) => b.healthScore - a.healthScore),//si no descendente
-                }
-            case ORDER_NAME:
-                //Esto se hace para evitar modificar directamente el estado original y seguir las buenas prácticas de inmutabilidad.
-                const sortRecipeAlphabet=[...state.recipes]
-                return {
-                    ...state,//Esto copia todas las propiedades existentes en el objeto de estado original.
-                    //se copian antes de realizar la ordenación para evitar modificar el estado original directamente.
-                    recipes: payload === 'A-Z'
-                    ? sortRecipeAlphabet.sort((a, b) => a.name.localeCompare(b.name))
-                    : sortRecipeAlphabet.sort((a, b) => b.name.localeCompare(a.name)),
+  switch (type) {
+    case GET_ALL_RECIPES:
+      return { ...state, recipes: payload, copyRecipes: payload };
 
-                }
+    case GET_RECIPE_DETAIL:
+      return { ...state, details: payload };
 
-            case FILTER_DIET:
-                const allRecDiet = state.copyRecipes
-                const typeDietFilter = allRecDiet.filter((recipes) => {
-                    return recipes.diets && recipes.diets.includes(payload);
-                });
-                return{
-                    ...state,
-                    recipes: payload === 'allDiets'? allRecDiet : typeDietFilter,
-                    recipeDiet: payload === 'allDiets'? allRecDiet : typeDietFilter
-                }
+    case GET_ALL_DIET:
+      return { ...state, diets: payload };
 
-            case FILTER_CREATED:
-                    const allRecipes= state.copyRecipes
-                    const filterCreated =  payload === 'db'
-                        ?allRecipes.filter(recip => recip.created)
-                        :allRecipes.filter(recip => !recip.created)
-                    return{
-                        ...state,
-                    recipes: payload === 'allRecipe' ? state.copyRecipes : filterCreated
-                    }
-        default:
-            return { ...state }
+    case GET_RECIPE_NAME:
+      return { ...state, recipes: payload };
+
+    case POST_RECIPES:
+      return { ...state, recipes: [...state.recipes, payload] };
+
+    case DELETE:
+      return { ...state, recipes: state.recipes.filter((r) => r.id !== payload) };
+
+    case ORDER_RECIPES_SCORE: {
+      const sorted = [...state.recipes].sort((a, b) =>
+        payload === 'Ascendente' ? a.healthScore - b.healthScore : b.healthScore - a.healthScore
+      );
+      return { ...state, recipes: sorted };
     }
-}
-export default rootReducer
+
+    case ORDER_NAME: {
+      const sorted = [...state.recipes].sort((a, b) =>
+        payload === 'A-Z' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+      );
+      return { ...state, recipes: sorted };
+    }
+
+    case FILTER_DIET: {
+      const filtered =
+        payload === 'allDiets'
+          ? state.copyRecipes
+          : state.copyRecipes.filter((r) => r.diets?.includes(payload));
+      return { ...state, recipes: filtered, recipeDiet: filtered };
+    }
+
+    case FILTER_CREATED: {
+      if (payload === 'allRecipes') return { ...state, recipes: state.copyRecipes };
+      const filtered =
+        payload === 'db'
+          ? state.copyRecipes.filter((r) => r.created)
+          : state.copyRecipes.filter((r) => !r.created);
+      return { ...state, recipes: filtered };
+    }
+
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;

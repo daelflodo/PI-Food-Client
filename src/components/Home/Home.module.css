@@ -1,58 +1,280 @@
-.container{
-  /* background-color: rgb(88, 206, 143); */
+/* ╔══════════════════════════════════════════
+   ║  Home Page  —  Professional Design
+   ╚══════════════════════════════════════════ */
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
 }
-.contbutton {
-    margin: 0.4rem;
-    margin-top: 0.5rem;
-    /* color: rgb(210, 19, 19); */
-    text-decoration: none;
-    /* background-color: rgba(0, 0, 0, 0.6); */
-    border-radius: 10px;
-    padding: 5px 5px;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-    margin: 1rem;
-  }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 15px;
-    gap: 5em;
-    justify-content: center;
-    padding: 0 20px 4px;
-  }
-  
-  .row > * {
-    flex-basis: calc(25% - 2rem);
-    margin: 35px;
-  }
-  
-  @media (max-width: 768px) {
-    .row > * {
-      flex-basis: calc(30% - 20px); /* Ancho de las tarjetas en pantallas más pequeñas */
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .row > * {
-      flex-basis: calc(100% - 20px); /* Ancho de las tarjetas en pantallas aún más pequeñas */
-    }
-  }
-  
-  .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    }
-    .page-title {
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
-    }
-    .filter{
-    border-radius: 15px;
-    padding: 3px;
-    border-bottom-width: 4px;
-    border-color: rgb(17, 188, 77);
-    margin: 10px;
-    }
+
+/* ── Controls bar ───────────────────────────── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(17, 23, 40, 0.9) 0%,
+    rgba(12, 17, 32, 0.95) 100%
+  );
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    var(--shadow-md);
+}
+
+/* Each select wrapped in a relative container */
+.selectWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Chevron icon */
+.selectWrapper::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--color-text-muted);
+  pointer-events: none;
+  transition: border-top-color var(--t-fast);
+}
+.selectWrapper:focus-within::after {
+  border-top-color: var(--color-primary);
+}
+
+.select {
+  width: 100%;
+  padding: 0.6rem 2.4rem 0.6rem 1rem;
+  background: rgba(7, 10, 18, 0.6);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    border-color var(--t-fast),
+    color var(--t-fast),
+    background var(--t-fast),
+    box-shadow var(--t-fast);
+}
+
+.select:hover {
+  border-color: var(--color-border-hi);
+  color: var(--color-text);
+}
+
+.select:focus {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  background: rgba(255, 107, 43, 0.04);
+  box-shadow: 0 0 0 3px var(--color-primary-alpha);
+}
+
+.select option {
+  background: #111728;
+  color: var(--color-text);
+}
+
+/* Vertical divider between selects */
+.controlsDivider {
+  width: 1px;
+  height: 28px;
+  background: var(--color-border-mid);
+  flex-shrink: 0;
+}
+
+/* ── Recipe grid ────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; gap: 1.25rem; }
+}
+
+/* ── Empty state ────────────────────────────── */
+.empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 6rem 2rem;
+  color: var(--color-text-muted);
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+  opacity: 0.3;
+  filter: grayscale(0.5);
+}
+
+.emptyText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════
+   Pagination  —  Premium pill design
+   ══════════════════════════════════════════════ */
+
+.paginationWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 3rem;
+}
+
+.pageInfo {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pageInfo strong {
+  color: var(--color-primary-light);
+  font-weight: 700;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem;
+  background: rgba(12, 17, 32, 0.8);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    var(--shadow-md);
+}
+
+.pageBtn {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition:
+    background var(--t-fast),
+    color var(--t-fast),
+    transform var(--t-bounce),
+    box-shadow var(--t-fast);
+}
+
+.pageBtn:hover {
+  background: rgba(255, 107, 43, 0.08);
+  border-color: rgba(255, 107, 43, 0.2);
+  color: var(--color-text);
+  transform: scale(1.08);
+}
+
+.pageBtnActive {
+  background: var(--gradient-brand);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 700;
+  box-shadow:
+    0 0 0 3px rgba(255, 107, 43, 0.18),
+    0 4px 16px rgba(255, 107, 43, 0.4);
+  transform: scale(1.08);
+}
+
+.pageBtnActive:hover {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 0 4px rgba(255, 107, 43, 0.22),
+    0 6px 20px rgba(255, 107, 43, 0.5);
+}
+
+.paginationDots {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: default;
+  user-select: none;
+}
+
+/* Separator between page numbers and nav buttons */
+.paginationSep {
+  width: 1px;
+  height: 20px;
+  background: var(--color-border-mid);
+  margin: 0 0.1rem;
+  flex-shrink: 0;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 1.1rem;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-mid);
+  background: rgba(7, 10, 18, 0.5);
+  color: var(--color-text-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast),
+    color var(--t-fast),
+    transform var(--t-bounce),
+    box-shadow var(--t-fast);
+}
+
+.navBtn:hover:not(:disabled) {
+  background: rgba(255, 107, 43, 0.1);
+  border-color: rgba(255, 107, 43, 0.4);
+  color: var(--color-primary-light);
+  transform: scale(1.04);
+  box-shadow: 0 2px 12px rgba(255, 107, 43, 0.2);
+}
+
+.navBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.navBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

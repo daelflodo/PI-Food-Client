@@ -1,7 +1,51 @@
-.container{
-    margin-right: 20px;
+.wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(7, 10, 18, 0.55);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  transition:
+    border-color var(--t-fast),
+    box-shadow   var(--t-fast),
+    background   var(--t-fast);
+  backdrop-filter: blur(8px);
 }
-/* button{
-    color: rgb(255, 68, 0);
-    
-} */
+
+.wrapper:focus-within {
+  border-color: var(--color-primary);
+  background: rgba(255, 107, 43, 0.04);
+  box-shadow:
+    0 0 0 3px var(--color-primary-alpha),
+    0 2px 12px rgba(0,0,0,0.3);
+}
+
+.input {
+  flex: 1;
+  padding: 0.52rem 0.75rem 0.52rem 1rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  min-width: 180px;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.btn {
+  padding: 0.52rem 0.9rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  transition: color var(--t-fast), transform var(--t-fast);
+  line-height: 1;
+}
+
+.btn:hover {
+  color: var(--color-primary);
+  transform: scale(1.15);
+}

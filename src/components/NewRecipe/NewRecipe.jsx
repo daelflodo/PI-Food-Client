@@ -1,152 +1,108 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import validation from '../Validation/Validation'
-import style from '../NewRecipe/NewRecipe.module.css'
-import { getAllDiet, getAllRecipes, postRecipes } from "../../redux/actions/actions";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllDiet, getAllRecipes, postRecipes } from '../../redux/actions/actions';
+import validation from '../Validation/Validation';
+import style from './NewRecipe.module.css';
+
+const INITIAL_FORM = {
+  name: '', summary: '', healthScore: '', steps: '', diets: [], image: '',
+};
 
 const NewRecipe = () => {
-    const dispatch = useDispatch();
-    let listDiets = useSelector((state) => state.diets);
-    const [errors, setErrors] = useState({})
-    const [form, setForm] = useState({//1
-        name: "",
-        summary: "",
-        healthScore: "",
-        steps: "",
-        diets: [],
-        image: "",
-    });
+  const dispatch  = useDispatch();
+  const listDiets = useSelector((state) => state.diets);
+  const [form, setForm]     = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        dispatch(getAllDiet());
-        dispatch(getAllRecipes());
-    }, []);
+  useEffect(() => {
+    dispatch(getAllDiet());
+    dispatch(getAllRecipes());
+  }, [dispatch]);
 
-    const handleChange = (event) => {
-        if (event.target.name === 'diets') {
-            setForm({// este solamente es para el estado de //2
-                ...form,
-                diets: [...form.diets, event.target.value] //usando bracket-notations pq no sabemos cual es el nombre de la 
-                //propiedad
-            })
-            setErrors(validation({
-                ...form,
-                [event.target.name]: event.target.value
-            }))
-        } else {// aqui es para el resto de los estados
-            setForm({
-                ...form,
-                [event.target.name]: event.target.value
-            })
-            setErrors(validation({
-                ...form,
-                [event.target.name]: event.target.value
-            }))
-        }
+  const handleChange = ({ target: { name, value } }) => {
+    const updated =
+      name === 'diets'
+        ? { ...form, diets: [...form.diets, value] }
+        : { ...form, [name]: value };
+    setForm(updated);
+    setErrors(validation(updated));
+  };
 
-        //declaramos la funcion validation dentro del handleChange para q las validaciones sean en tiempo real o mejor dicho
-        //cada ves que cambie el estado de los input
+  const removeDiet = (diet) =>
+    setForm((prev) => ({ ...prev, diets: prev.diets.filter((d) => d !== diet) }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.name === '' || Object.keys(errors).length !== 0) {
+      alert('Please fill all required fields correctly.');
+      return;
     }
+    dispatch(postRecipes(form));
+    setForm(INITIAL_FORM);
+    alert('Recipe created successfully!');
+  };
 
-    // Elimina los tipos de Diet
-    const handleDelete = (diet) => {
-        setForm({
-            ...form,
-            diets: form.diets.filter((element) => element !== diet),
-        });
-    }
-    const handleSubmit = (event) => {
+  return (
+    <div className={style.page}>
+      <div className={style.card}>
+        <h1 className={style.title}>New Recipe</h1>
+        <p className={style.subtitle}>Share your culinary creation with the world</p>
 
-        if (form.name ==='' || Object.keys(errors).length !== 0) {
-            event.preventDefault()
-            alert('Missing data')
-        }
-        else{
-            dispatch(postRecipes(form))
-        }
-    }
+        <form className={style.form} onSubmit={handleSubmit}>
+          <div className={style.field}>
+            <label className={style.label}>Recipe Name *</label>
+            <input className={style.input} name="name" type="text" value={form.name} onChange={handleChange} placeholder="e.g. Carbonara Pasta" />
+            {errors.name && <span className={style.error}>⚠ {errors.name}</span>}
+          </div>
 
+          <div className={style.field}>
+            <label className={style.label}>Summary *</label>
+            <input className={style.input} name="summary" type="text" value={form.summary} onChange={handleChange} placeholder="Brief description of this recipe" />
+            {errors.summary && <span className={style.error}>⚠ {errors.summary}</span>}
+          </div>
 
-    return (
-        <div className={style.container}>
-            <h1>New Recipe</h1>
-            <form onSubmit={handleSubmit} >
-                { !form.name && <label style={{ color: "red" }} htmlFor="name">Name</label>}
-                <input
-                    name="name"
-                    type="text"
-                    value={form.name}
-                    onChange={handleChange}
-                />
-                {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+          <div className={style.field}>
+            <label className={style.label}>Health Score (0–100) *</label>
+            <input className={style.input} name="healthScore" type="number" min="0" max="100" value={form.healthScore} onChange={handleChange} placeholder="e.g. 75" />
+            {errors.healthScore && <span className={style.error}>⚠ {errors.healthScore}</span>}
+          </div>
 
-                {!form.summary && <label style={{ color: "red" }} htmlFor="summary">Summary</label>}
-                <input
-                    name="summary"
-                    type="text"
-                    value={form.summary}
-                    onChange={handleChange}
-                />
-                {errors.summary && <p style={{ color: "red" }}>{errors.summary}</p>}
+          <div className={style.field}>
+            <label className={style.label}>Steps *</label>
+            <input className={style.input} name="steps" type="text" value={form.steps} onChange={handleChange} placeholder="Preparation steps…" />
+            {errors.steps && <span className={style.error}>⚠ {errors.steps}</span>}
+          </div>
 
-                {!form.healthScore && <label style={{ color: "red" }} htmlFor="healthScore">Health Score</label>}
-                <input
-                    name="healthScore"
-                    type="text"
-                    value={form.healthScore}
-                    onChange={handleChange}
-                />
-                {errors.healthScore && <p style={{ color: "red" }}>{errors.healthScore}</p>}
+          <div className={style.field}>
+            <label className={style.label}>Image URL *</label>
+            <input className={style.input} name="image" type="url" value={form.image} onChange={handleChange} placeholder="https://…" />
+            {errors.image && <span className={style.error}>⚠ {errors.image}</span>}
+          </div>
 
-                {!form.steps && <label style={{ color: "red" }} htmlFor="steps">Steps</label>}
-                <input
-                    name="steps"
-                    type="text"
-                    value={form.steps}
-                    onChange={handleChange}
-                />
-                {errors.steps && <p style={{ color: "red" }}>{errors.steps}</p>}
-                <br />
+          <div className={style.field}>
+            <label className={style.label}>Diets *</label>
+            <select className={style.select} name="diets" onChange={handleChange} value="">
+              <option value="" disabled>Select a diet type</option>
+              {listDiets?.map((diet, i) => (
+                <option key={i} value={diet.name}>{diet.name}</option>
+              ))}
+            </select>
+            {errors.diets && <span className={style.error}>⚠ {errors.diets}</span>}
+            <div className={style.dietTags}>
+              {form.diets.map((diet, i) => (
+                <span key={i} className={style.dietTag}>
+                  {diet}
+                  <button type="button" className={style.dietTagRemove} onClick={() => removeDiet(diet)}>✕</button>
+                </span>
+              ))}
+            </div>
+          </div>
 
-                {!form.image && <label style={{color:"red"}} htmlFor="image" >Url image</label>}
-                <input
-                    name="image"
-                    type="text"
-                    value={form.image}
-                    onChange={handleChange}
-                />
-                
-                { errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
-                <select className={style.diets} name="diets" onChange={handleChange}>
-                    <option disabled selected>Select a diet</option>
-                    {listDiets?.map((element, index) => (
-                        <option key={index} value={element?.name}>
-                            {element?.name}
-                        </option>
-                    ))}
-                </select>
-                {errors.diets && <p style={{ color: "red" }}>{errors.diets}</p>}
-                {/* hago un mapeo para borrar la dieta */}
-                <div >
-                    {form.diets?.map((diet, index) => (
-                        <div key={index} >
-                            <button
-                                className={style.buttonDelete}
-                                onClick={() => handleDelete(diet)}
-                            > x </button>
-                            <span className={style.spanDiets} key={index}>{diet}</span>
-                        </div>
-                    ))}
+          <button type="submit" className={style.submitBtn}>Create Recipe</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-                </div>
-                {/* </div> */}
-
-
-                {/* ------------------------------------------- */}
-                <br />
-                <button>Create</button>
-            </form>
-        </div>
-    )
-}
-export default NewRecipe
+export default NewRecipe;

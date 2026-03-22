@@ -1,24 +1,48 @@
-import { useLocation } from "react-router-dom"
-import SearchBar from "../SearchBar/SearchBar"
-import style from './Nav.module.css'
-import logoFood from '../../img-food/logo.png'
-import logoGitHub from '../../img-food/GitHub-Logo.png'
-import { Link } from "react-router-dom"
-const Nav = () => {
-    const location = useLocation()
+import { Link, useLocation } from 'react-router-dom';
+import SearchBar from '../SearchBar/SearchBar';
+import style from './Nav.module.css';
+import logoFood from '../../img-food/logo.png';
+import logoGitHub from '../../img-food/GitHub-Logo.png';
 
-    return (
-        <div className={style.container}>
-            <nav >
-                <Link to={'/'}><img src={logoFood} alt="food-logo" width="50px" height="50px" /></Link>
-                {location.pathname!=='/home' && <Link to={'/home'}><button>Home</button></Link>}
-                {location.pathname === '/home' && <SearchBar />}
-                {/* <button  onClick={handleOnClick}>Reset</button> */}
-                {location.pathname === '/home'&& <Link to={'/newRecipe'}><button>New Recipe</button></Link>} {/* este link te dirige a un nuevo componente para crear recetas*/}
-                {location.pathname === '/home'&& <Link to={'/modify'}><button>Modify Recipe</button></Link>} {/* este link te dirige a un nuevo componente para crear recetas*/}
-                <Link to={'https://github.com/daelflodo'}><img src={logoGitHub} alt="" width="75px" height="40px"  /></Link>
-            </nav>
-        </div>
-    )
-}
-export default Nav
+const Nav = () => {
+  const { pathname } = useLocation();
+  const isHome = pathname === '/home';
+
+  return (
+    <header className={style.nav}>
+      <Link to="/" className={style.logo}>
+        <img src={logoFood} alt="PI Food logo" className={style.logoIcon} />
+        <span className={style.logoText}>PI Food</span>
+      </Link>
+
+      <div className={style.actions}>
+        {!isHome && (
+          <Link to="/home">
+            <button className={style.btn}>← Home</button>
+          </Link>
+        )}
+        {isHome && <SearchBar />}
+        {isHome && (
+          <>
+            <Link to="/newRecipe">
+              <button className={`${style.btn} ${style.btnPrimary}`}>+ New Recipe</button>
+            </Link>
+            <Link to="/modify">
+              <button className={style.btn}>✎ Modify</button>
+            </Link>
+          </>
+        )}
+        <a
+          href="https://github.com/daelflodo"
+          target="_blank"
+          rel="noreferrer"
+          className={style.github}
+        >
+          <img src={logoGitHub} alt="GitHub profile" />
+        </a>
+      </div>
+    </header>
+  );
+};
+
+export default Nav;
