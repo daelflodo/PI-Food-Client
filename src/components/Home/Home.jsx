@@ -101,6 +101,8 @@ const Home = () => {
               image={recipe.image}
               diets={recipe.diets}
               healthScore={recipe.healthScore}
+              summary={recipe.summary}
+              steps={recipe.steps}
             />
           ))
         )}

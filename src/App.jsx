@@ -7,7 +7,7 @@ import Home from './components/Home/Home';
 import LandingPages from './components/LandingPages/LandingPages';
 import Detail from './components/Detail/Detail';
 import NewRecipe from './components/NewRecipe/NewRecipe';
-import Modify from './components/NewRecipe/Modify';
+import ToastContainer from './components/Toast/Toast';
 import './App.css';
 
 function App() {
@@ -27,8 +27,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/newRecipe" element={<NewRecipe />} />
-        <Route path="/modify" element={<Modify />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

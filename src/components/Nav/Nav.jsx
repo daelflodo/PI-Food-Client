@@ -27,9 +27,6 @@ const Nav = () => {
             <Link to="/newRecipe">
               <button className={`${style.btn} ${style.btnPrimary}`}>+ New Recipe</button>
             </Link>
-            <Link to="/modify">
-              <button className={style.btn}>✎ Modify</button>
-            </Link>
           </>
         )}
         <a

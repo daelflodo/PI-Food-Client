@@ -144,6 +144,31 @@
   text-shadow: 0 0 12px rgba(251, 113, 133, 0.6);
 }
 
+/* ── Edit button ─────────────────────────────── */
+.editBtn {
+  position: absolute;
+  top: 0.6rem; left: 0.6rem;
+  width: 30px; height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 107, 43, 0.15);
+  border: 1px solid rgba(255, 107, 43, 0.4);
+  border-radius: var(--radius-full);
+  color: #ff9060;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  z-index: 4;
+}
+.editBtn:hover {
+  background: rgba(255, 107, 43, 0.85);
+  border-color: #ff6b2b;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(255, 107, 43, 0.5);
+}
+
 /* ── Delete button ───────────────────────────── */
 .deleteBtn {
   position: absolute;
