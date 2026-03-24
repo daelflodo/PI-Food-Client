@@ -1,7 +1,7 @@
 
+import { Link } from 'react-router-dom';
 import style from './LandingPages.module.css';
 
-const APP_URL = import.meta.env.VITE_APP_URL || '/home';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const FEATURES = [
@@ -47,9 +47,9 @@ const LandingPages = () => (
       <p className={style.subtitle}>
         Discover thousands of recipes from around the world. Cook, explore, create.
       </p>
-      <a href={APP_URL} className={style.ctaLink}>
+      <Link to="/home" className={style.ctaLink}>
         <button className={style.cta}>Explore Recipes →</button>
-      </a>
+      </Link>
       <div className={style.scrollHint}>
         <span>What you&apos;ll find</span>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
@@ -71,9 +71,9 @@ const LandingPages = () => (
           </div>
         ))}
       </div>
-      <a href={APP_URL} className={style.ctaLink}>
+      <Link to="/home" className={style.ctaLink}>
         <button className={`${style.cta} ${style.ctaOutline}`}>Get Started Now →</button>
-      </a>
+      </Link>
       <a href={API_URL} className={style.ctaLink}>
         <button className={`${style.cta} ${style.ctaOutline}`}>Docs Back-end →</button>
       </a>
